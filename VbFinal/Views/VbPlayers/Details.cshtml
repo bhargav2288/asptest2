@@ -27,13 +27,13 @@
             @Html.DisplayFor(model => model.Lastname)
         </dd>
 
-        @if (Model.Photo != null)
-        {
-            <dt>@Html.DisplayNameFor(model => model.Photo)</dt>
-            
-                <img src="@Model.Photo" />
-            
-        }
+        <dt>
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Photo)
+        </dd>
     </dl>
 </div>
 <p>
