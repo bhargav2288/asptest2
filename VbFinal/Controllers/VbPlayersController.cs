@@ -10,9 +10,10 @@ using VbFinal.Models;
 
 namespace VbFinal.Controllers
 {
+    [Authorize]
     public class VbPlayersController : Controller
     {
-        private DbModel db = new DbModel();
+        // private DbModel db = new DbModel();
         private IMockVbPlayer db;
 
         public VbPlayersController()
@@ -30,7 +31,7 @@ namespace VbFinal.Controllers
         public ActionResult Index()
         {
             var vbPlayers = db.VbPlayers;
-            return View(vbPlayers.ToList());
+            return View("Index", vbPlayers.ToList());
         }
 
         // GET: VbPlayers/Details/5
@@ -40,7 +41,8 @@ namespace VbFinal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VbPlayer vbPlayer = db.VbPlayers.Find(id);
+            // VbPlayer vbPlayer = db.VbPlayers.Find(id);
+            VbPlayer vbPlayer = db.VbPlayers.SingleOrDefault(v => v.VbPlayerId == id);
             if (vbPlayer == null)
             {
                 return HttpNotFound();
@@ -63,8 +65,9 @@ namespace VbFinal.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.VbPlayers.Add(vbPlayer);
-                db.SaveChanges();
+                //db.VbPlayers.Add(vbPlayer);
+                //db.SaveChanges();
+                db.Save(vbPlayer);
                 return RedirectToAction("Index");
             }
 
@@ -77,13 +80,15 @@ namespace VbFinal.Controllers
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return 
             }
-            VbPlayer vbPlayer = db.VbPlayers.Find(id);
+            //VbPlayer vbPlayer = db.VbPlayers.Find(id);
+            VbPlayer vbPlayer = db.VbPlayers.SingleOrDefault(v => v.VbPlayerId == id);
             if (vbPlayer == null)
             {
                 return HttpNotFound();
             }
-            return View(vbPlayer);
+            return View("Edit", vbPlayer);
         }
 
         // POST: VbPlayers/Edit/5
@@ -95,11 +100,12 @@ namespace VbFinal.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(vbPlayer).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(vbPlayer).State = EntityState.Modified;
+                //db.SaveChanges();
+                db.Save(vbPlayer);
                 return RedirectToAction("Index");
             }
-            return View(vbPlayer);
+            return View("Edit", vbPlayer);
         }
 
         // GET: VbPlayers/Delete/5
@@ -109,7 +115,8 @@ namespace VbFinal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VbPlayer vbPlayer = db.VbPlayers.Find(id);
+            // VbPlayer vbPlayer = db.VbPlayers.Find(id);
+            VbPlayer vbPlayer = db.VbPlayers.SingleOrDefault(v => v.VbPlayerId == id);
             if (vbPlayer == null)
             {
                 return HttpNotFound();
@@ -122,9 +129,11 @@ namespace VbFinal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            VbPlayer vbPlayer = db.VbPlayers.Find(id);
-            db.VbPlayers.Remove(vbPlayer);
-            db.SaveChanges();
+            //VbPlayer vbPlayer = db.VbPlayers.Find(id);
+            VbPlayer vbPlayer = db.VbPlayers.SingleOrDefault(v => v.VbPlayerId == id);
+            //db.VbPlayers.Remove(vbPlayer);
+            //db.SaveChanges();
+            db.Delete(vbPlayer);
             return RedirectToAction("Index");
         }
 

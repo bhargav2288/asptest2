@@ -21,6 +21,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Players", "Index", "VbPlayers")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -30,7 +34,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - </p>
+            <p>&copy; @DateTime.Now.Year - Bhargav Prajapati - 200389495</p>
         </footer>
     </div>
 
